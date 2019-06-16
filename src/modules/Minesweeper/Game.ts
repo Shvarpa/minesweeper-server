@@ -1,11 +1,11 @@
-import { range, popRandom, cross, genFilter, genMap } from "./utils";
-import { Cell, Point } from "../@types";
-import { MinesweeperGrid } from "./MinesweeperGrid";
+import { range, popRandom, cross, genFilter, genMap } from "../utils";
+import { Point } from "../../@types";
+import { Grid } from "./Grid";
 
-export class MinesweeperGame {
+export class Game {
   rows: number;
   columns: number;
-  grid: MinesweeperGrid;
+  grid: Grid;
 
   constructor(rows: number, columns: number) {
     this.rows = rows;
@@ -32,10 +32,12 @@ export class MinesweeperGame {
 
 
   generateGame(start?: Point) {
-    let bombCount = Math.floor((this.rows * this.columns) / 5);
-    this.grid = new MinesweeperGrid(this.rows, this.columns)
+    // let bombCount = Math.floor((this.rows * this.columns) / 5);
+    let bombCount = 5;
+    this.grid = new Grid(this.rows, this.columns)
     let bombs = this.generateBombs(bombCount, start);
     this.grid.placeBombs(bombs);
+    if (start) this.grid.reveal(start)
   }
 
 }
