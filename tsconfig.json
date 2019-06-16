@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    // "module": "es2015",
+    "module": "commonJS",
     // "target": "es6",
     "moduleResolution": "node",
     "declaration": false,
@@ -9,10 +9,11 @@
     "downlevelIteration": true,
     "noImplicitReturns": true,
     "allowSyntheticDefaultImports": true,
-    "lib": ["es2015", "dom"],
+    "lib": ["es6", "dom"],
     "typeRoots": [
-      "./node_modules/@types"
-    ]
+      "./node_modules/@types",
+      "./src/@types"
+    ],
   },
   "exclude": [
     "node_modules",

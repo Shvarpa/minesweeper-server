@@ -2,7 +2,7 @@ import { assert, expect } from "chai";
 
 import { MinesweeperGame } from "../src/modules/MinesweeperGame";
 
-describe.only("MinesweeperGame", () => {
+describe("MinesweeperGame", () => {
   describe("#generateBombs()", () => {
     it("generateBombs(10) should assign 10 bomb locations", () => {
       let game = new MinesweeperGame(5, 5);
