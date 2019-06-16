@@ -17,7 +17,4 @@ export class Cell implements Point {
         this.number = 0;
     }
 
-    reveal() {
-        this.reveald = true;
-    }
 }

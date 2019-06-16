@@ -60,23 +60,28 @@ export class Grid {
         return false;
       }
       else {
-        cell.reveal();
+        cell.reveald = true;
         if (cell.number === 0)
           for (let neighbour of this.neighbours(cell)) {
             if (!neighbour.bomb)
               if (neighbour.number === 0)
                 this.reveal(neighbour);
-              else neighbour.reveal();
+              else neighbour.reveald = true;
           }
         return true;
       }
     return true;
   }
 
+  flag(point:Point){
+    let cell = this.get(point)
+    cell.flag != cell.flag;
+  }
+
   revealAll() {
     for (let row of this.grid) {
       for (let cell of row) {
-        cell.reveal();
+        cell.reveald = true;
       }
     }
   }
