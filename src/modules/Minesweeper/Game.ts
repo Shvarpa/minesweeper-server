@@ -1,5 +1,5 @@
 import { range, popRandom, cross, genFilter, genMap } from "../utils";
-import { Point } from "../../@types";
+import { Point, GameState } from "../../@types";
 import { Grid } from "./Grid";
 
 export class Game {
@@ -31,13 +31,27 @@ export class Game {
   }
 
 
-  generateGame(start?: Point) {
-    // let bombCount = Math.floor((this.rows * this.columns) / 5);
-    let bombCount = 5;
-    this.grid = new Grid(this.rows, this.columns)
+  generateGame(bombCount: number, start?: Point) {
+    this.grid = new Grid(this.rows, this.columns);
     let bombs = this.generateBombs(bombCount, start);
     this.grid.placeBombs(bombs);
-    if (start) this.grid.reveal(start)
+    if (start) this.reveal(start);
   }
 
+  reveal(point: Point) {
+    this.grid.reveal(point);
+  }
+
+  flag(point: Point) {
+    let cell = this.grid.get(point);
+    cell.flag = !cell.flag;
+  }
+
+  getState(): GameState {
+    return {
+      grid: this.grid.grid,
+      rows: this.rows,
+      columns: this.columns,
+    }
+  }
 }

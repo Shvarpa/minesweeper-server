@@ -1,12 +1,13 @@
 import { Point } from "../../@types";
 import { range } from "../utils";
-import { threadId } from "worker_threads";
 import { Cell } from "./Cell";
 
 export class Grid {
   rows: number;
   columns: number;
   grid: Cell[][];
+  left: number;
+
   constructor(rows: number, columns: number) {
     this.rows = rows;
     this.columns = columns;
@@ -41,6 +42,7 @@ export class Grid {
       for (let neighbour of this.neighbours(bomb))
         if (typeof neighbour.number != "undefined")
           neighbour.number += 1;
+      this.left = (this.rows * this.columns) - bombs.length
     }
   }
 
@@ -54,19 +56,21 @@ export class Grid {
 
   reveal(point): boolean {
     let cell = this.get(point)
-    if (!cell.reveald)
+    if (!cell.revealed)
       if (cell.bomb) {
         this.revealAll();
         return false;
       }
       else {
-        cell.reveald = true;
+        cell.revealed = true;
+        this.left -= 1;
         if (cell.number === 0)
           for (let neighbour of this.neighbours(cell)) {
             if (!neighbour.bomb)
+              this.left -= 1;
               if (neighbour.number === 0)
                 this.reveal(neighbour);
-              else neighbour.reveald = true;
+              else neighbour.revealed = true;
           }
         return true;
       }
@@ -81,7 +85,7 @@ export class Grid {
   revealAll() {
     for (let row of this.grid) {
       for (let cell of row) {
-        cell.reveald = true;
+        cell.revealed = true;
       }
     }
   }
@@ -89,6 +93,6 @@ export class Grid {
   toHtml() {
     // return `${this.grid.map(row => "<p>" + row.map(cell => typeof cell.number != "undefined" ? cell.number : "x").join(" , ") + "</p>\n").join("")}`;
     // return `${this.grid.map(row=>"<p>"+row.map(cell=>`(${cell.x},${cell.y})`).join(',')+"</p>\n").join("")}`
-    return `${this.grid.map(row => "<p>" + row.map(cell => cell.reveald ? (typeof cell.number != "undefined" ? cell.number : "x") : "~").join(" , ") + "</p>\n").join("")}`;
+    return `${this.grid.map(row => "<p>" + row.map(cell => cell.revealed ? (typeof cell.number != "undefined" ? cell.number : "x") : "~").join(" , ") + "</p>\n").join("")}`;
   }
 }

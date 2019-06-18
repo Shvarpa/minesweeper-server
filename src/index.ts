@@ -1,13 +1,16 @@
-import express = require("express");
-import { Game } from "./modules/Minesweeper/Game";
+import { Game } from "./modules/Minesweeper/Game"
+
+import sio = require('socket.io')
+import express = require('express')
+import httpServer = require('http')
+import { Host } from "./modules/Minesweeper/Host";
+
+
 const app = express();
+const http = httpServer.createServer(app);
+const io = sio(http);
 const port = 3000;
 
+let host = new Host(io)
 
-app.get("/", (req, res) => {
-  let game = new Game(7,7)
-  game.generateGame({x:3,y:3});
-  res.send(game.grid.toHtml());
-});
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+http.listen(port, () => console.log(`http listening on port ${port}! http://localhost:${port}`));
